@@ -40,13 +40,17 @@ class Kinopoisk
 
             $nameNode = $row->first('td a.all');
             $name = trim($nameNode->text());
-
             $m = [];
             preg_match("/\(([0-9]+)\)/", $name, $m);
             $film->year = (int)$m[1];
 
+            $name = str_replace('('.$film->year.')', '', $name);
+
+            $film->name = $name;
+
             $originalNameNode = $row->first('td span.text-grey');
-            $film->name = trim($originalNameNode->text());
+            if(!is_null($originalNameNode))
+                $film->name = trim($originalNameNode->text());
 
             $ratingNode = $row->first('td div a.continue');
             $film->rating = floatval(trim($ratingNode->text()));

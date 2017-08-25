@@ -11,7 +11,10 @@ class Http
      */
     public function get($url)
     {
-        return file_get_contents($url);
+        $data = file_get_contents($url);
+        $data = mb_convert_encoding($data, "utf-8", "windows-1251");
+
+        return $data;
     }
 
 }
